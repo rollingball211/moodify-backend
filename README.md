@@ -1,11 +1,12 @@
 # moodify-backend
-음악 추천 프로그램 - moodify 백엔드
+Next.js + Spirng Framework로 구성된 음악 추천 프로그램 - moodify 백엔드 파트
 
 2025/07/25 
 기본 API 테스팅,
 User Entity /repository / service / controller 파일 생성
 
 프로젝트 진행 도중 학습한 내용
+
 build.gradle (file)
 
 implementation 'org.springframework.boot:spring-boot-starter-web'
