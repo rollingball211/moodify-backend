@@ -85,3 +85,17 @@ null-check를 하기 위해 사용함
 @ManyToOne
 여러 개의 MoodLog가 하나의 User에 연결된다
 (N:1 )
+
+
+MoodController 
+
+**return ResponseEntity.status(HttpStatus.CREATED).body(saved);**
+
+**HttpStatus.CREATED** 
+-> HTTP 상태 코드 201을 뜻함.
+"요청이 성공적으로 처리되었고, 새로운 리소스가 생성되었다"
+
+
+**REST API 설계 원칙에서
+새로운 자원을 만들었을 때는 201 상태 코드와 함께 만든 자원 정보를 돌려주는 게 좋다!
+프론트엔드는 이 응답을 받아서, 예를 들어 생성된 Mood 정보를 바로 화면에 표시할 수 있음**
