@@ -76,10 +76,9 @@ public interface UserRepository extends JpaRepository<User, Long> { }
 - 예: 200 OK, 404 Not Found
 
 🔍 주요 어노테이션 사용 정리
-형태 예시	어노테이션	설명
-/users/123	@PathVariable	URL 경로에서 값 추출
-/users?id=123&pw=abc123	@RequestParam	URL 쿼리 스트링에서 값 추출
-JSON body	@RequestBody	HTTP Body(JSON) → 객체 변환
+- /users/123	@PathVariable	URL 경로에서 값 추출
+- /users?id=123&pw=abc123	@RequestParam	URL 쿼리 스트링에서 값 추출
+- JSON body	@RequestBody	HTTP Body(JSON) → 객체 변환
 
 사용 예 요약:
 
