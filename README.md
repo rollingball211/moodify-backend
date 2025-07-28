@@ -1,101 +1,116 @@
 # moodify-backend
-Next.js + Spirng Framework로 구성된 음악 추천 프로그램 - moodify 백엔드 파트
 
-2025/07/25 
-기본 API 테스팅,
-User Entity /repository / service / controller 파일 생성
+Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백엔드 파트
 
-프로젝트 진행 도중 학습한 내용
+---
 
-build.gradle (file)
+## 📅 개발 이력
 
+**2025/07/25**
+- 기본 API 테스팅
+- User Entity / Repository / Service / Controller 파일 생성
+
+**2025/07/28**
+- domain 패키지에 Mood를 포함한 총 4개의 클래스 추가
+- Mood Entity / Repository/ Servcie / Controller 파일 생성
+---
+
+## ⚙️ 프로젝트 진행 도중 학습한 내용
+
+### 📄 build.gradle 설정
+
+```gradle
 implementation 'org.springframework.boot:spring-boot-starter-web'
--web 기능을 가능하게 해줌
+// 웹 기능 활성화
 
-DB 관련 세팅
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-- jpa 도구 세팅
-	implementation 'com.h2database:h2'
-- 테스트용 인메모리 DB (h2)
+implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+// JPA 도구 세팅
 
+implementation 'com.h2database:h2'
+// 테스트용 인메모리 DB (H2)
+```
+### 🧱 User Entity
+@Entity
+- DB와의 매핑에 필요함
+- 
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-User [entity]
-1. @entity -> DB와의 매핑에 필요함 
-2. @GeneratedValue(strategy = GenerationType.IDENTITY)
--> 필드의 값을 자동으로 생성하며, db에서 auto-increment 역할을함
- private Long id;  //JPA에서의 기본 PK로 설정되는 코드
-3.  public User() {} 
--> 기본 생성자를 JPA가 무조건 필요로 하기 때문에 필요함! 
-매개변수가 있는 생성자의 경우 편의를 위해 (미리 초기화) 로 사용
-상황에 따라서는 protected까지 사용할 수 있음.
+필드 값을 자동 생성하며, DB에서 auto-increment 역할 수행
 
-userRepository
-1. public interface UserRepository extends JpaRepository<User, Long> {
+예: private Long id; (JPA 기본 PK)
 
-}
--> JpaRepository는 JPA DB작업 method를 미리 구현해둔 인터페이스임,구현 시 아래와 같은 인터페이스 작성 가능
-------------------------------
+public User() {}
+
+JPA에서 반드시 요구하는 기본 생성자, 매개변수 생성자는 편의상 미리 초기화 용도로 사용
+상황에 따라 protected 접근 제어자도 사용 가능
+
+### 📚 UserRepository
+public interface UserRepository extends JpaRepository<User, Long> { }
+JpaRepository는 JPA DB 작업 메서드를 미리 구현해둔 인터페이스로, 다음과 같은 메서드를 제공:
+
+메서드	설명
 save(User user)	저장 또는 수정
 findById(Long id)	ID로 조회
 findAll()	전체 조회
 deleteById(Long id)	ID로 삭제
-count()	총 개수
-existsById(Long id)	존재 여부 확인
---------------------------------
-userService 
-UserRepository 에 있는 interface들을 호출해 비즈니스 로직을 담당함
+count()	총 개수 반환
+existsById(Long id)	해당 ID 존재 여부 확인
 
-userController()
-1. @RestController
--REST API의 Controller
-@ResponseBody의 조합이므로 반환값을 HTTP Body로 직렬화후 반환함
--> 프론트 요청 올 시 Json으로 응답함
+### UserService
+UserRepository에 정의된 인터페이스 메서드들을 호출하여 비즈니스 로직을 처리
 
-2. RequestMapping("~/~)
-모든 메서드 기본경로 지정
+### 🧭 UserController
+@RestController
 
-3. @RequestBody
--> 요청 바디(JSON)를 User 객체로 자동 변환해줌 (역직렬화)
-@ResponseEntity는 응답 상태 + 바디를 함께 리턴
-ex) (200 ok.. 404 not found)
+REST API 컨트롤러 역할
 
-4.  🔹 @PathVariable → URL 경로 자체에서 값 추출
-	🔹 @RequestParam → URL 뒤에 붙는 쿼리 스트링에서 값 추출
-	🔹 @RequestBody → HTTP 요청 바디(JSON)에서 객체로 역직렬화
+@ResponseBody 조합이므로 반환값을 HTTP Body로 직렬화하여 응답
 
-형태	어노테이션	예시 URL	설명
-/users/123	-> **@PathVariable**	/users/{id}	경로 중 일부 (리소스 지정용)
-/users?id=123&pw=abc123	- > **@RequestParam**	/users?id=123	쿼리 파라미터 추출
-JSON body	**@RequestBody**	POST, PUT 등에서 사용	바디에서 사용함
+@RequestMapping("~/...")
 
-특정 자원 조회 (/users/123)	@PathVariable
-검색 조건, 필터, 옵션 (/search?name=홍길동)	@RequestParam
-로그인, 회원가입 같은 복잡한 입력값	@RequestBody
+모든 메서드의 기본 경로 지정
 
+@RequestBody
 
-Optional?
-null-check를 하기 위해 사용함
+HTTP 요청 바디(JSON)를 User 객체로 자동 변환 (역직렬화)
+
+ResponseEntity는 응답 상태 코드와 응답 바디를 함께 반환
+
+예: 200 OK, 404 Not Found
+
+🔍 주요 어노테이션 사용 정리
+형태 예시	어노테이션	설명
+/users/123	@PathVariable	URL 경로에서 값 추출
+/users?id=123&pw=abc123	@RequestParam	URL 쿼리 스트링에서 값 추출
+JSON body	@RequestBody	HTTP Body(JSON) → 객체 변환
+
+사용 예 요약:
+
+특정 자원 조회: @PathVariable → /users/123
+
+검색 조건, 필터 등: @RequestParam → /search?name=홍길동
+
+회원가입, 로그인 등 복잡한 입력값: @RequestBody
+
+### Optional이란?
+null 체크를 안전하게 하기 위해 사용하는 Java 기능
 - null-check 강제함(컴파일 단계)
 - nullPointerException 방지
 - map / filter / orElse 등으로 코드 처리 가능 !!
 
-0728
-1) domain에 Mood를 비롯한 4개의 클래스 추가
+#0728
+@ManyToOne 사용
 
-@ManyToOne
-여러 개의 MoodLog가 하나의 User에 연결된다
-(N:1 )
+여러 개의 MoodLog가 하나의 User에 연결되는 구조 (N:1 관계)
 
+🧾 MoodController
+return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+HttpStatus.CREATED
 
-MoodController 
+HTTP 상태 코드 201: "요청이 성공적으로 처리되었고, 새로운 리소스가 생성되었음"
 
-**return ResponseEntity.status(HttpStatus.CREATED).body(saved);**
+✅ REST API 설계 원칙
+새로운 자원을 생성했을 때는 201(Created) 상태 코드와 함께 생성된 자원 정보를 반환하는 것이 좋음
 
-**HttpStatus.CREATED** 
--> HTTP 상태 코드 201을 뜻함.
-"요청이 성공적으로 처리되었고, 새로운 리소스가 생성되었다"
+프론트엔드는 이 응답을 받아 생성된 Mood 정보를 즉시 화면에 반영할 수 있음
 
-
-**REST API 설계 원칙에서
-새로운 자원을 만들었을 때는 201 상태 코드와 함께 만든 자원 정보를 돌려주는 게 좋다!
-프론트엔드는 이 응답을 받아서, 예를 들어 생성된 Mood 정보를 바로 화면에 표시할 수 있음**
