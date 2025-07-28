@@ -33,51 +33,47 @@ implementation 'com.h2database:h2'
 ### 🧱 UserEntity
 @Entity
 - DB와의 매핑에 필요함
-- 
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 필드 값을 자동 생성하며, DB에서 auto-increment 역할 수행
 
 예: private Long id; (JPA 기본 PK)
 
-public User() {}
+- public User() {}
 
-JPA에서 반드시 요구하는 기본 생성자, 매개변수 생성자는 편의상 미리 초기화 용도로 사용
+- JPA에서 반드시 요구하는 기본 생성자, 매개변수 생성자는 편의상 미리 초기화 용도로 사용,
 상황에 따라 protected 접근 제어자도 사용 가능
 
 ### 📚 UserRepository
 public interface UserRepository extends JpaRepository<User, Long> { }
-JpaRepository는 JPA DB 작업 메서드를 미리 구현해둔 인터페이스로, 다음과 같은 메서드를 제공:
+- JpaRepository는 JPA DB 작업 메서드를 미리 구현해둔 인터페이스로, 다음과 같은 메서드를 제공:
 
-메서드	설명
-save(User user)	저장 또는 수정
-findById(Long id)	ID로 조회
-findAll()	전체 조회
-deleteById(Long id)	ID로 삭제
-count()	총 개수 반환
-existsById(Long id)	해당 ID 존재 여부 확인
+메서드 설명
+- save(User user)	저장 또는 수정
+- findById(Long id)	ID로 조회
+- findAll()	전체 조회
+- deleteById(Long id)	ID로 삭제
+- count()	총 개수 반환
+- existsById(Long id)	해당 ID 존재 여부 확인
 
 ### UserService
-UserRepository에 정의된 인터페이스 메서드들을 호출하여 비즈니스 로직을 처리
+- UserRepository에 정의된 인터페이스 메서드들을 호출하여 비즈니스 로직을 처리
 
 ### 🧭 UserController
-@RestController
+1. @RestController
+- REST API 컨트롤러 역할
 
-REST API 컨트롤러 역할
+2. @ResponseBody 
+- 반환값을 HTTP Body로 직렬화하여 응답
 
-@ResponseBody 조합이므로 반환값을 HTTP Body로 직렬화하여 응답
+3. @RequestMapping("~/...")
+- 모든 메서드의 기본 경로 지정
 
-@RequestMapping("~/...")
+4. @RequestBody
+- HTTP 요청 바디(JSON)를 User 객체로 자동 변환 (역직렬화)
 
-모든 메서드의 기본 경로 지정
-
-@RequestBody
-
-HTTP 요청 바디(JSON)를 User 객체로 자동 변환 (역직렬화)
-
-ResponseEntity는 응답 상태 코드와 응답 바디를 함께 반환
-
-예: 200 OK, 404 Not Found
+5. ResponseEntity는 응답 상태 코드와 응답 바디를 함께 반환
+- 예: 200 OK, 404 Not Found
 
 🔍 주요 어노테이션 사용 정리
 형태 예시	어노테이션	설명
@@ -102,18 +98,16 @@ null 체크를 안전하게 하기 위해 사용하는 Java 기능
 ### **0728**
 
 **Mood**
-@ManyToOne 사용
+@ManyToOne
+- 여러 개의 MoodLog가 하나의 User에 연결되는 구조 (N:1 관계)
 
-여러 개의 MoodLog가 하나의 User에 연결되는 구조 (N:1 관계)
-
-###🧾 MoodController
+### 🧾 MoodController
 return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 HttpStatus.CREATED
 
-HTTP 상태 코드 201: "요청이 성공적으로 처리되었고, 새로운 리소스가 생성되었음"
+- HTTP 상태 코드 201: "요청이 성공적으로 처리되었고, 새로운 리소스가 생성되었음"
 
 ✅ REST API 설계 원칙
 새로운 자원을 생성했을 때는 201(Created) 상태 코드와 함께 생성된 자원 정보를 반환하는 것이 좋음
-
 프론트엔드는 이 응답을 받아 생성된 Mood 정보를 즉시 화면에 반영할 수 있음
 
