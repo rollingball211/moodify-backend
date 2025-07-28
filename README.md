@@ -29,7 +29,8 @@ implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 implementation 'com.h2database:h2'
 // 테스트용 인메모리 DB (H2)
 ```
-### 🧱 User Entity
+### USER Part ###
+### 🧱 UserEntity
 @Entity
 - DB와의 매핑에 필요함
 - 
@@ -98,12 +99,14 @@ null 체크를 안전하게 하기 위해 사용하는 Java 기능
 - nullPointerException 방지
 - map / filter / orElse 등으로 코드 처리 가능 !!
 
-#0728
+### **0728**
+
+**Mood**
 @ManyToOne 사용
 
 여러 개의 MoodLog가 하나의 User에 연결되는 구조 (N:1 관계)
 
-🧾 MoodController
+###🧾 MoodController
 return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 HttpStatus.CREATED
 
