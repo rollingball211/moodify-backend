@@ -78,3 +78,10 @@ null-check를 하기 위해 사용함
 - null-check 강제함(컴파일 단계)
 - nullPointerException 방지
 - map / filter / orElse 등으로 코드 처리 가능 !!
+
+0728
+1) domain에 Mood를 비롯한 4개의 클래스 추가
+
+@ManyToOne
+여러 개의 MoodLog가 하나의 User에 연결된다
+(N:1 )
