@@ -15,8 +15,10 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 - Mood Entity / Repository/ Servcie / Controller 파일 생성
 
 **2025/07/29**
-Mood , User create API 응답 200 -> 201 코드 리팩토링
-Music - Service/Controller/Repository 코드 작성
+- Mood , User create API 응답 200 -> 201 코드 리팩토링
+- Music - Service/Controller/Repository 코드 작성
+- MoodLog Service/Controller/Repository 코드 작성 
+- DTO 생성 후 리팩토링, 코드 다시보기 필요
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
