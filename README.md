@@ -13,6 +13,10 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 **2025/07/28**
 - domain 패키지에 Mood를 포함한 총 4개의 클래스 추가
 - Mood Entity / Repository/ Servcie / Controller 파일 생성
+
+**2025/07/29**
+Mood , User create API 응답 200 -> 201 코드 리팩토링
+Music - Service/Controller/Repository 코드 작성
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
@@ -117,3 +121,23 @@ HttpStatus.CREATED
 * 서버는 201 Created 상태 코드를 반환하는 게 표준 권장사항이다
  - 기존 create 함수들을 바꿔주며, getId() 를 모두 작성해줘야함. refactor 진행
  - User/Mood controller 모두 완료
+
+**MoodLog Part**
+- DTO 생성
+- orElseThrow()는 Optional 안에 값이 있으면 그 값을 꺼내고,값이 없으면 예외를 던진다.
+- ```
+     public MoodLog createMoodLog (Long userId, Long moodId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow( () -> new IllegalArgumentException("user not found" + userId));
+        Mood mood = moodRepository.findById(moodId)
+                .orElseThrow( () -> new IllegalArgumentException(("mood not found") + moodId));  //orElseThrow()는 Optional 안에 값이 있으면 그 값을 꺼내고,값이 없으면 예외를 던진다.
+
+        MoodLog moodLog = new MoodLog();
+        moodLog.setUser(user);
+        moodLog.setMood(mood);
+        moodLog.setCreatedAt(LocalDateTime.now());
+
+        return moodLogRepository.save(moodLog);
+    }
+  ```
+  

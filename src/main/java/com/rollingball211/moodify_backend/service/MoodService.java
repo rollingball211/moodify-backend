@@ -14,13 +14,20 @@ public class MoodService {
         this.moodRepository = moodRepository;
     }
 
-    public List<Mood> getAllMoods() {
-        return moodRepository.findAll();
-    }
 
     public Mood createMood(Mood mood) {
         return moodRepository.save(mood);
     }
+
+    public List<Mood> getAllMoods() {
+        return moodRepository.findAll();
+    }
+
+
+
+
+
+
 
 
 }
