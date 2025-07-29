@@ -17,3 +17,9 @@ MoodMusicMapping	특정 기분에 어떤 음악들이 연결되는지 (추천 �
 MoodRepository
 MoodService
 MoodController
+
+
+**0729**
+
+Mood , User create API 응답 200 -> 201 코드 리팩토링 
+Music - Service/Controller/Repository 코드 작성

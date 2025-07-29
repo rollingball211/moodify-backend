@@ -110,3 +110,10 @@ HttpStatus.CREATED
 새로운 자원을 생성했을 때는 201(Created) 상태 코드와 함께 생성된 자원 정보를 반환하는 것이 좋음
 프론트엔드는 이 응답을 받아 생성된 Mood 정보를 즉시 화면에 반영할 수 있음
 
+
+### **0729**
+
+* POST 요청으로 새 리소스가 생성되면
+* 서버는 201 Created 상태 코드를 반환하는 게 표준 권장사항이다
+ - 기존 create 함수들을 바꿔주며, getId() 를 모두 작성해줘야함. refactor 진행
+ - User/Mood controller 모두 완료

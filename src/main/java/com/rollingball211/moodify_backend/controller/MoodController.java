@@ -5,7 +5,9 @@ import com.rollingball211.moodify_backend.service.MoodService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,7 +25,13 @@ public class MoodController {
 
     @PostMapping
     public ResponseEntity<Mood> createMood(@RequestBody Mood mood) {
-        Mood saved = moodService.createMood(mood);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        Mood created = moodService.createMood(mood);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(created);
     }
 }
