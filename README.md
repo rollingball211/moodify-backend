@@ -154,3 +154,5 @@ HttpStatus.CREATED
 .map(moodLog -> new MoodLogResponseDTO(moodLog))
 즉 moodLog를 인자로 받는 생성자가 있어야 실행 가능하다.
 ```
+
+- DTO 는 보안 / 캡술화 뿐만 아니라 외부에 보낼 용도로 정제된 객체로 변환하는 작업이다. 

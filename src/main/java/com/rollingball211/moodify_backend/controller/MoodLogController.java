@@ -25,51 +25,29 @@ public class MoodLogController {
     public ResponseEntity<MoodLogResponseDTO> createMoodLog(@RequestBody MoodLogRequestDTO requestDTO) {
         MoodLog created = moodLogService.createMoodLog(requestDTO.getUserId(),requestDTO.getMoodId());
 
-        MoodLogResponseDTO responseDTO = new MoodLogResponseDTO(
-                created.getId(),
-                created.getUser().getUsername(),
-                created.getMood().getName(),
-                created.getCreatedAt()
-        );
+        MoodLogResponseDTO responseDTO = new MoodLogResponseDTO(created);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(created.getId())
                 .toUri();
+
         return ResponseEntity.created(location).body(responseDTO);
     }
 
     //밑에 다시보기 - 이해가 잘 안감
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<MoodLogResponseDTO>> getMoodLogsByUser(@PathVariable Long userId) {
-        List<MoodLog> logs = moodLogService.getMoodLogsByUserId(userId);
-
-        List<MoodLogResponseDTO> responseDTOs = logs.stream()
-                .map(log -> new MoodLogResponseDTO(
-                        log.getId(),
-                        log.getUser().getUsername(),
-                        log.getMood().getName(),
-                        log.getCreatedAt()
-                ))
-                .collect(Collectors.toList());
-
+        List<MoodLogResponseDTO> responseDTOs = moodLogService.getMoodLogsByUserId(userId);
         return ResponseEntity.ok(responseDTOs);
     }
 
+
+    //전체 로그 들고오기
     @GetMapping
     public ResponseEntity<List<MoodLogResponseDTO>> getAllMoodLogs() {
-        List<MoodLog> logs = moodLogService.getAllMoodLogs();
-
-        List<MoodLogResponseDTO> responseDTOs = logs.stream()
-                .map(log -> new MoodLogResponseDTO(
-                        log.getId(),
-                        log.getUser().getUsername(),
-                        log.getMood().getName(),
-                        log.getCreatedAt()
-                ))
-                .collect(Collectors.toList());
-
+        List<MoodLogResponseDTO> responseDTOs = moodLogService.getAllMoodLogs();
         return ResponseEntity.ok(responseDTOs);
     }
 

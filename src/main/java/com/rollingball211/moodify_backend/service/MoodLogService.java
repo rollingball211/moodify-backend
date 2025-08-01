@@ -26,39 +26,46 @@ public class MoodLogService {
         this.moodRepository = moodRepository;
     }
 
-    //사용자별 Mood 로그 조회 (GET /api/mood-logs/user/{userId})
-    //특정 기간 내 로그 조회 (선택사항)
 
-    public MoodLog createMoodLog (Long userId, Long moodId) {
+    /** 사용자별 MoodLog 조회하기 - DTO 리스트를 반환한다.
+     * 모든 moodLog를 가져와야 하므로 stream.map을 사용해야함
+     * findById는 하나만 찾아오기 때문.
+     * 보안을 위해 DTO형태로 만들어서 API에 사용할수 있게 보냄.
+   **/
+
+    public List<MoodLogResponseDTO> getMoodLogsByUserId(Long userId) {
+        List<MoodLog> logs = moodLogRepository.findByUserId(userId);
+        return logs.stream()
+                .map(MoodLogResponseDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    //MoodLog 생성하는 method
+    public MoodLog createMoodLog(Long userId, Long moodId) {
         User user = userRepository.findById(userId)
-                .orElseThrow( () -> new IllegalArgumentException("user not found" + userId));
+                .orElseThrow( () -> new IllegalArgumentException(("user not found!!!" + userId)));
         Mood mood = moodRepository.findById(moodId)
-                .orElseThrow( () -> new IllegalArgumentException(("mood not found") + moodId));  //orElseThrow()는 Optional 안에 값이 있으면 그 값을 꺼내고,값이 없으면 예외를 던진다.
+                .orElseThrow(() -> new IllegalArgumentException("mood not found: " + moodId));
 
         MoodLog moodLog = new MoodLog();
         moodLog.setUser(user);
         moodLog.setMood(mood);
         moodLog.setCreatedAt(LocalDateTime.now());
 
-        MoodLog saved  = moodLogRepository.save(moodLog);
-        return moodLogRepository.save(saved);
-
-
+        return moodLogRepository.save(moodLog);
     }
 
-    public List<MoodLog> getAllMoodLogs() {
-        return moodLogRepository.findAll();
-    }
-
-
-    //id별 MoodLog 가져오기
-    //모든 moodLog를 가져와야 하므로 stream.map을 사용해야함
-    //findById는 하나만 찾아오기 때문.
-    //보안을 위해 DTO형태로 만들어서 API에 사용할수 있게 보냄.
-    public List<MoodLog> getMoodLogsByUserId(Long userId) {
-        List<MoodLog> logs = moodLogRepository.findByUserId(userId);
+    //전체 MoodLog 조회하기 - DTO 리스트를 반환시킨다.
+    public List<MoodLogResponseDTO> getAllMoodLogs() {
+        List<MoodLog> logs =  moodLogRepository.findAll();
         return logs.stream()
                 .map(MoodLogResponseDTO::new)
                 .collect(Collectors.toList());
     }
+
+
+
+
+
+
 }
