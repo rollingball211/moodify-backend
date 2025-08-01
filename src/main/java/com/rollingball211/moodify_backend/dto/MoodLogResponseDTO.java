@@ -1,5 +1,7 @@
 package com.rollingball211.moodify_backend.dto;
 
+import com.rollingball211.moodify_backend.domain.MoodLog;
+
 import java.time.LocalDateTime;
 
 public class MoodLogResponseDTO {
@@ -10,11 +12,19 @@ public class MoodLogResponseDTO {
 
     public MoodLogResponseDTO() {}
 
+    //기본 생성자
     public MoodLogResponseDTO(Long id, String username, String moodName, LocalDateTime createdAt) {
         this.id = id;
         this.username = username;
         this.moodName = moodName;
         this.createdAt = createdAt;
+    }
+    //ResponseDto new 를 쓰기위한 생성자.
+    public MoodLogResponseDTO(MoodLog moodLog) {
+        this.id = moodLog.getId();
+        this.username = moodLog.getUser().getUsername();
+        this.moodName = moodLog.getMood().getName();       // 기분 종류
+        this.createdAt = moodLog.getCreatedAt();
     }
 
     // Getter / Setter

@@ -3,6 +3,7 @@ package com.rollingball211.moodify_backend.service;
 import com.rollingball211.moodify_backend.domain.Mood;
 import com.rollingball211.moodify_backend.domain.MoodLog;
 import com.rollingball211.moodify_backend.domain.User;
+import com.rollingball211.moodify_backend.dto.MoodLogResponseDTO;
 import com.rollingball211.moodify_backend.repository.MoodLogRepository;
 import com.rollingball211.moodify_backend.repository.MoodRepository;
 import com.rollingball211.moodify_backend.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MoodLogService {
@@ -38,7 +40,8 @@ public class MoodLogService {
         moodLog.setMood(mood);
         moodLog.setCreatedAt(LocalDateTime.now());
 
-        return moodLogRepository.save(moodLog);
+        MoodLog saved  = moodLogRepository.save(moodLog);
+        return moodLogRepository.save(saved);
 
 
     }
@@ -48,8 +51,14 @@ public class MoodLogService {
     }
 
 
-    //다시보기
+    //id별 MoodLog 가져오기
+    //모든 moodLog를 가져와야 하므로 stream.map을 사용해야함
+    //findById는 하나만 찾아오기 때문.
+    //보안을 위해 DTO형태로 만들어서 API에 사용할수 있게 보냄.
     public List<MoodLog> getMoodLogsByUserId(Long userId) {
-        return moodLogRepository.findByUserId(userId);
+        List<MoodLog> logs = moodLogRepository.findByUserId(userId);
+        return logs.stream()
+                .map(MoodLogResponseDTO::new)
+                .collect(Collectors.toList());
     }
 }

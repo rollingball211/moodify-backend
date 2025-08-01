@@ -19,6 +19,9 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 - Music - Service/Controller/Repository 코드 작성
 - MoodLog Service/Controller/Repository 코드 작성 
 - DTO 생성 후 리팩토링, 코드 다시보기 필요
+
+**2025/08/01**
+- DTO에 대한 자세한 이해
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
@@ -142,4 +145,12 @@ HttpStatus.CREATED
         return moodLogRepository.save(moodLog);
     }
   ```
-  
+  - **Why DTO?**
+  - Entity는 내부 설계도와 같은 역할을 한다, 즉 DB구조 그대로 반영된 객체를 의미한다.
+  - 민감정보를 포함하거나, 프론트에 영향을 줄 수 잇기 때문에 원하는 필드만 작성할 수 있는 DTO를 사용한다.
+  - Stream.map.collect를 이용해 Entity를 Dto로 변환한다.
+```
+ .map(MoodLogResponseDTO::new)은 아래와 같다.
+.map(moodLog -> new MoodLogResponseDTO(moodLog))
+즉 moodLog를 인자로 받는 생성자가 있어야 실행 가능하다.
+```

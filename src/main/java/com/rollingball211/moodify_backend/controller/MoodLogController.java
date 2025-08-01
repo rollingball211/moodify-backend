@@ -23,7 +23,7 @@ public class MoodLogController {
 
     @PostMapping
     public ResponseEntity<MoodLogResponseDTO> createMoodLog(@RequestBody MoodLogRequestDTO requestDTO) {
-        MoodLog created = moodLogService.createMoodLog(requestDTO.getUserId(),requestDTO.getUserId());
+        MoodLog created = moodLogService.createMoodLog(requestDTO.getUserId(),requestDTO.getMoodId());
 
         MoodLogResponseDTO responseDTO = new MoodLogResponseDTO(
                 created.getId(),
