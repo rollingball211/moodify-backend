@@ -22,6 +22,12 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 
 **2025/08/01**
 - DTO에 대한 자세한 이해
+
+**2025/08/02**
+- MoodMusicMappingRepository 제작
+- findByMood를 이용해 특정 기분에 연결된 음악 매핑들 리스트 조회
+2. 음악 추천 서비스 RecommendationService 제작
+3. 
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용

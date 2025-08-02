@@ -64,3 +64,13 @@ Music
 매핑 추가 (POST)
 특정 기분에 대한 추천 음악 조회 (GET /api/moods/{id}/music)
 
+**사용자 최근 기분 기준으로 음악 추천 API**
+1. MoodLog Table에서 해당 유저의 가장 최근 로그 1개 조회
+2. 해당 로그의 MoodID에 매핑된 음악 리스트 조회
+3. 랜덤하게 1~3개 반환
+
+**개발과정**
+1. MoodMusicMappingRepository 제작 ( MoodMusicMapping의 기본 CRUD 제공)
+- findByMood를 이용해 특정 기분에 연결된 음악 매핑들 리스트 조회
+2. 추천 서비스 RecommendationService 제작
+3. 
