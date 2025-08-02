@@ -28,6 +28,9 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 - findByMood를 이용해 특정 기분에 연결된 음악 매핑들 리스트 조회
 2. 음악 추천 서비스 RecommendationService 제작
 3. 음악 추천 컨트롤러  RecommendController 제작
+
+**2025/08/03**
+1. PostMan API 테스트
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
