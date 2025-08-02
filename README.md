@@ -27,7 +27,7 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 - MoodMusicMappingRepository 제작
 - findByMood를 이용해 특정 기분에 연결된 음악 매핑들 리스트 조회
 2. 음악 추천 서비스 RecommendationService 제작
-3. 음악 추천 서비스 RecommendController 제작
+3. 음악 추천 컨트롤러  RecommendController 제작
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
@@ -90,7 +90,7 @@ public interface UserRepository extends JpaRepository<User, Long> { }
 5. ResponseEntity는 응답 상태 코드와 응답 바디를 함께 반환
 - 예: 200 OK, 404 Not Found
 
-🔍 주요 어노테이션 사용 정리
+🔍 **주요 어노테이션 사용 정리**
 - /users/123	@PathVariable	URL 경로에서 값 추출
 - /users?id=123&pw=abc123	@RequestParam	URL 쿼리 스트링에서 값 추출
 - JSON body	@RequestBody	HTTP Body(JSON) → 객체 변환
