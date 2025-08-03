@@ -31,6 +31,7 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 
 **2025/08/03**
 1. PostMan API 테스트
+2. 기본 DB 세팅 (JPA) - application.properties
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
