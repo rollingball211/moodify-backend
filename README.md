@@ -32,6 +32,13 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 **2025/08/03**
 1. PostMan API 테스트
 2. 기본 DB 세팅 (JPA) - application.properties
+3. swagger "http://localhost:8080/swagger-ui/index.html#/"
+4. swagger 상세설명 수정 @Tag 및 @Operation,@Parameter 어노테이션 사용
+
+**2025/08/04**
+1. 모든 API SWAGGER 수정 및 작성
+2. DTO 구조 정리
+3. 예외 전역 처리	(오류 처리 통일 @RestControllerAdvice 활용)
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
@@ -183,3 +190,9 @@ JSON :
 }
 
 ```
+
+**😀Swagger**
+1. swagger 상세설명 수정 @Tag 및 @Operation,@Parameter 어노테이션 사용
+- **@Tag(name = "user-controller", description = "사용자 관련 API")**
+- **@Operation(summary = "모든 사용자 조회")**
+- **public ResponseEntity<User> getUser(@Parameter(description = "사용자 ID") @PathVariable Long id)**

@@ -2,6 +2,9 @@ package com.rollingball211.moodify_backend.controller;
 
 import com.rollingball211.moodify_backend.domain.Music;
 import com.rollingball211.moodify_backend.service.MusicService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@Tag(name ="musicController", description = "음악 관련 API")
 @RestController
 @RequestMapping("/api/music")
 public class MusicController {
@@ -26,6 +30,7 @@ public class MusicController {
      * POST 요청으로 새 리소스가 생성되면
      * 서버는 201 Created 상태 코드를 반환하는 게 표준 권장사항!
      * **/
+    @Operation(summary = "음악 등록")
     @PostMapping
     public ResponseEntity<Music> createMusic (@RequestBody Music music) {
         Music created = musicService.createMusic(music);
@@ -37,19 +42,20 @@ public class MusicController {
                 .toUri();// 완성문자열을 객체로 바꿔줌.
         return ResponseEntity.created(location).body(created);
     }
-
+    @Operation(summary = "모든 음악 목록 조회")
     @GetMapping
     public List<Music> getAllMusic() {
         return musicService.getAllMusic();
     }
 
+    @Operation(summary = "음악 단건 조회(ID)")
     @GetMapping("/{id}")
-    public ResponseEntity<Music> getMusicById(@PathVariable Long id) {
+    public ResponseEntity<Music> getMusicById(@Parameter(description = "음악ID") @PathVariable Long id) {
         return musicService.getMusicById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
 
-    } //id로 찾기
+    }
 
 
 }
