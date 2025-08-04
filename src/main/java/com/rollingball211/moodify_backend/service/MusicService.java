@@ -1,6 +1,7 @@
 package com.rollingball211.moodify_backend.service;
 
 import com.rollingball211.moodify_backend.domain.Music;
+import com.rollingball211.moodify_backend.dto.music.MusicRequestDTO;
 import com.rollingball211.moodify_backend.repository.MusicRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,11 @@ public class MusicService {
         return musicRepository.findById(id);
     } //musicId로 찾기
 
-    public Music createMusic(Music music) {
+    public Music createMusic(MusicRequestDTO musicRequestDTO) {
+        Music music = new Music();
+        music.setArtist(musicRequestDTO.getArtist());
+        music.setTitle(musicRequestDTO.getTitle());
+        music.setUrl(musicRequestDTO.getUrl());
         return musicRepository.save(music);
     }
 }

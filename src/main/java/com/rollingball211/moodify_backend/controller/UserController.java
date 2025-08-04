@@ -1,6 +1,7 @@
 package com.rollingball211.moodify_backend.controller;
 
 import com.rollingball211.moodify_backend.domain.User;
+import com.rollingball211.moodify_backend.dto.User.UserRequestDTO;
 import com.rollingball211.moodify_backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,8 +35,8 @@ public class UserController {
     //user Create
     @Operation(summary = "사용자 등록")
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User created = userService.createUser(user);
+    public ResponseEntity<User> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+        User created = userService.createUser(userRequestDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

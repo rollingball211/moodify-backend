@@ -25,6 +25,7 @@ public class MoodController {
     }
 
     //무드 생성
+    /**
     @PostMapping
     public ResponseEntity<Mood> createMood(@RequestBody Mood mood) {
         Mood created = moodService.createMood(mood);
@@ -36,4 +37,5 @@ public class MoodController {
                 .toUri();
         return ResponseEntity.created(location).body(created);
     }
+    **/
 }

@@ -1,6 +1,7 @@
 package com.rollingball211.moodify_backend.controller;
 
 import com.rollingball211.moodify_backend.domain.Music;
+import com.rollingball211.moodify_backend.dto.music.MusicRequestDTO;
 import com.rollingball211.moodify_backend.service.MusicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,8 +33,8 @@ public class MusicController {
      * **/
     @Operation(summary = "음악 등록")
     @PostMapping("applyMusic/{id}")
-    public ResponseEntity<Music> createMusic (@RequestBody Music music) {
-        Music created = musicService.createMusic(music);
+    public ResponseEntity<Music> createMusic (@RequestBody MusicRequestDTO musicRequestDTO) {
+        Music created = musicService.createMusic(musicRequestDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()  //현재 요청 URL 기반으로 URI 생성

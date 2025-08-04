@@ -39,6 +39,10 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 1. 모든 API SWAGGER 수정 및 작성
 2. DTO 구조 정리
 3. 예외 전역 처리	(오류 처리 통일 @RestControllerAdvice 활용)
+
+**2025/08/05**
+1. DTO 컨트롤러 변경 (수정 필요, 보안성 UP)
+2. 예외 전역 처리 수정
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
