@@ -200,3 +200,13 @@ JSON :
 - **@Tag(name = "user-controller", description = "사용자 관련 API")**
 - **@Operation(summary = "모든 사용자 조회")**
 - **public ResponseEntity<User> getUser(@Parameter(description = "사용자 ID") @PathVariable Long id)**
+
+**0804**
+```
+현재 DTO를 사용하는 객체에서 entity가 노출되는 문제가 있음
+작동방식에는 문제가 없으나 보안상 이유로 entity 노출 대신 DTO를 사용하는게 바람직함
+
+클라이언트가 id, password, role, createdAt 등 노출되면 안 되는 값을 조작해서 보내는 게 가능
+유지보수가 어려움
+	=> Entity가 바뀔 때마다 API 요청/응답 구조도 바뀌게 되어, API가 불안정해짐, DTO를 쓰는 이유가 사라짐
+```
