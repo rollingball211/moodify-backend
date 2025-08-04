@@ -1,4 +1,4 @@
-package com.rollingball211.moodify_backend.dto;
+package com.rollingball211.moodify_backend.dto.moodLog;
 
 import com.rollingball211.moodify_backend.domain.MoodLog;
 

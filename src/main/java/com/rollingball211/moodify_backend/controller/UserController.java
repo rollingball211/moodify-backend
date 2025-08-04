@@ -33,7 +33,7 @@ public class UserController {
 
     //user Create
     @Operation(summary = "사용자 등록")
-    @PostMapping("createUser/id")
+    @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User created = userService.createUser(user);
 

@@ -3,7 +3,7 @@ package com.rollingball211.moodify_backend.service;
 import com.rollingball211.moodify_backend.domain.Mood;
 import com.rollingball211.moodify_backend.domain.MoodLog;
 import com.rollingball211.moodify_backend.domain.User;
-import com.rollingball211.moodify_backend.dto.MoodLogResponseDTO;
+import com.rollingball211.moodify_backend.dto.moodLog.MoodLogResponseDTO;
 import com.rollingball211.moodify_backend.repository.MoodLogRepository;
 import com.rollingball211.moodify_backend.repository.MoodRepository;
 import com.rollingball211.moodify_backend.repository.UserRepository;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

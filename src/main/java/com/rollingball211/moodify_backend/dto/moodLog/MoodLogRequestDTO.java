@@ -1,4 +1,4 @@
-package com.rollingball211.moodify_backend.dto;
+package com.rollingball211.moodify_backend.dto.moodLog;
 
 public class MoodLogRequestDTO {
     private Long userId;

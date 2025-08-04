@@ -1,8 +1,8 @@
 package com.rollingball211.moodify_backend.controller;
 
 import com.rollingball211.moodify_backend.domain.MoodLog;
-import com.rollingball211.moodify_backend.dto.MoodLogRequestDTO;
-import com.rollingball211.moodify_backend.dto.MoodLogResponseDTO;
+import com.rollingball211.moodify_backend.dto.moodLog.MoodLogRequestDTO;
+import com.rollingball211.moodify_backend.dto.moodLog.MoodLogResponseDTO;
 import com.rollingball211.moodify_backend.service.MoodLogService;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/mood-logs")
