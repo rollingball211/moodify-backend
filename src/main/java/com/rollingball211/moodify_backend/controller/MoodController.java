@@ -18,11 +18,13 @@ public class MoodController {
     public MoodController (MoodService moodService) {
         this.moodService = moodService;
     }
+    //모든 무드 조회
     @GetMapping
     public List<Mood> getAllMoods() {
         return moodService.getAllMoods();
     }
 
+    //무드 생성
     @PostMapping
     public ResponseEntity<Mood> createMood(@RequestBody Mood mood) {
         Mood created = moodService.createMood(mood);

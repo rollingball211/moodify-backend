@@ -31,7 +31,7 @@ public class MusicController {
      * 서버는 201 Created 상태 코드를 반환하는 게 표준 권장사항!
      * **/
     @Operation(summary = "음악 등록")
-    @PostMapping
+    @PostMapping("applyMusic/{id}")
     public ResponseEntity<Music> createMusic (@RequestBody Music music) {
         Music created = musicService.createMusic(music);
 
@@ -43,13 +43,13 @@ public class MusicController {
         return ResponseEntity.created(location).body(created);
     }
     @Operation(summary = "모든 음악 목록 조회")
-    @GetMapping
+    @GetMapping("getAllMusic")
     public List<Music> getAllMusic() {
         return musicService.getAllMusic();
     }
 
     @Operation(summary = "음악 단건 조회(ID)")
-    @GetMapping("/{id}")
+    @GetMapping("findMusicById/{id}")
     public ResponseEntity<Music> getMusicById(@Parameter(description = "음악ID") @PathVariable Long id) {
         return musicService.getMusicById(id)
                 .map(ResponseEntity::ok)
