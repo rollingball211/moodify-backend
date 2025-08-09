@@ -43,6 +43,11 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 **2025/08/05**
 1. DTO 컨트롤러 변경 (수정 필요, 보안성 UP)
 2. 예외 전역 처리 수정
+
+
+**2025/08/09**
+1. 예외 전역 처리 수정 완료
+2. 
 ---
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
@@ -210,3 +215,24 @@ JSON :
 유지보수가 어려움
 	=> Entity가 바뀔 때마다 API 요청/응답 구조도 바뀌게 되어, API가 불안정해짐, DTO를 쓰는 이유가 사라짐
 ```
+
+**0809**
+```
+@RestContollerAdvice
+--
+@ControllerAdvice + @ResponseBody가 합쳐진 어노테이션
+프로젝트의 모든 컨트롤러에서 발생하는 예외를 한 곳에서 처리
+반환값을 자동으로 JSON 변환해서 응답
+
+=> 모든 컨트롤러의 예외처리를 이 클래스가 대신 한다! 라는 의미
+
+@ExceptionHandler( className)
+지정한 예외 타입이 발생할 경우 안의 메서드가 호출됨
+여러개의 handler를 만들어 예외 종류별로 다른 응답 만들기 가능!
+---------------------------------------------------------
+예외 처리 방식
+1. 컨트롤러에서 throw new IllegalArgumentException("잘못된 값") 발생
+2. Spring이 @RestControllerAdvice에 등록된 @ExceptionHandler(IllegalArgumentException.class)를 찾음
+3. 해당 메서드 실행 → JSON 형태로 에러 응답 반환
+```
+
