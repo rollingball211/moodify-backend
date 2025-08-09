@@ -47,8 +47,15 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 
 **2025/08/09**
 1. 예외 전역 처리 수정 완료
-2. 
+2. 전체 코드 점검 및 수정사항 확인
+
+**2025/08/10**
+1. 응답 DTO 통일
+2. 추천 로직 보안(-DB에서 N개, (LIMIT QUERY 처리))
+3. 예외처리 (404 추가)
+4. 시간 처리 통일
 ---
+
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
 
@@ -235,4 +242,6 @@ JSON :
 2. Spring이 @RestControllerAdvice에 등록된 @ExceptionHandler(IllegalArgumentException.class)를 찾음
 3. 해당 메서드 실행 → JSON 형태로 에러 응답 반환
 ```
+
+
 
