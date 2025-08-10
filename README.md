@@ -267,12 +267,15 @@ JSON :
 - MOODIFY 프로젝트의 경우 백엔드/프론트가 분리되어있어 DTO에서 포맷 지정해 보내는게 좋음
 
 ```
+DTO
+DTO 필드는 도메인 객체가 아니라, 도메인의 필드 값(원시 타입 또는 String 등) 만 가짐
+
 DTO Stream 
 return moods.stream()
        .map(mood -> new MoodResponseDTO(mood.getId(), mood.getName()))
        .collect(Collectors.toList());
        
- List<Mood> -> 스트림 변환 후 각 워소들을 다시 MoodResponseDTO로 매핑하고
+ List<Mood> -> 스트림 변환 후 각 원소들을 다시 MoodResponseDTO로 매핑하고
  다시 리스트로 변환한다.
  
 ```
