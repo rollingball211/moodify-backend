@@ -1,5 +1,6 @@
 package com.rollingball211.moodify_backend.dto.moodLog;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rollingball211.moodify_backend.domain.MoodLog;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ public class MoodLogResponseDTO {
     private Long id;
     private String username;
     private String moodName;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
     public MoodLogResponseDTO() {}

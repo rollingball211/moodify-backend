@@ -243,5 +243,25 @@ JSON :
 3. 해당 메서드 실행 → JSON 형태로 에러 응답 반환
 ```
 
-
-
+**0810**
+1. LocalDateTime 타입인 createdAt
+- JSON 변환 시 기본 ISO 포맷(YYYY-MM THH:MM:SS)으로 나옴
+```
+문제점
+1. T가 끼어있어 프론트 Parse가 불편할 가능성 존재
+2. 밀리초 포함 여부가 일정하지 않을 수 있음
+3. 타임존 정보를 포함하지 않음!
+- 서버/클라이언트 타임존이 다를 경우 시간 달라질 가능성 존재 
+=> 서버 UTC, 프론트 KST(UTC+9) 면 9시간 시간차이 발생
+4. API 마다 다른 포맷으로 날짜가 나오면 프론트에서 일일히 처리해야 함
+```
+- @JsonFormat으로 처리해야함
+```
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+```
+- String 변환
+```
+ this.createdAt = moodLog.getCreatedAt()
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+```
+- MOODIFY 프로젝트의 경우 백엔드/프론트가 분리되어있어 DTO에서 포맷 지정해 보내는게 좋음

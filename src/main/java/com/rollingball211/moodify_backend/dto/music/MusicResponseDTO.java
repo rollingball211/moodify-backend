@@ -1,5 +1,7 @@
 package com.rollingball211.moodify_backend.dto.music;
 
+import com.rollingball211.moodify_backend.domain.Music;
+
 import java.util.List;
 
 public class MusicResponseDTO {
@@ -14,6 +16,12 @@ public class MusicResponseDTO {
     private String albumImageUrl;
     private List<String> moods;
 **/
+    public MusicResponseDTO(Music music) {
+        this.id = music.getId();
+        this.title= music.getTitle();
+        this.artist = music.getArtist();
+        this.url = music.getUrl();
+    }
     public MusicResponseDTO(Long id, String title, String artist, String url) {
         this.id = id;
         this.title = title;
