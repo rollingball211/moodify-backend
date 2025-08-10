@@ -265,3 +265,14 @@ JSON :
         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 ```
 - MOODIFY 프로젝트의 경우 백엔드/프론트가 분리되어있어 DTO에서 포맷 지정해 보내는게 좋음
+
+```
+DTO Stream 
+return moods.stream()
+       .map(mood -> new MoodResponseDTO(mood.getId(), mood.getName()))
+       .collect(Collectors.toList());
+       
+ List<Mood> -> 스트림 변환 후 각 워소들을 다시 MoodResponseDTO로 매핑하고
+ 다시 리스트로 변환한다.
+ 
+```

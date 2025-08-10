@@ -1,6 +1,7 @@
 package com.rollingball211.moodify_backend.controller;
 
 import com.rollingball211.moodify_backend.domain.Mood;
+import com.rollingball211.moodify_backend.dto.mood.MoodResponseDTO;
 import com.rollingball211.moodify_backend.service.MoodService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,19 @@ public class MoodController {
         this.moodService = moodService;
     }
     //모든 무드 조회
+    //DTO 버전으로 조회 0810
     @GetMapping
-    public List<Mood> getAllMoods() {
+    public ResponseEntity<List<MoodResponseDTO>> getAllMoods() {
+        List<MoodResponseDTO> moods = moodService.getAllMoods();
+        return ResponseEntity.ok(moods);
+    }
+
+    /** 이전 버전
+     public List<Mood> getAllMoods() {
         return moodService.getAllMoods();
     }
+    **/
+
 
     //무드 생성
     /**

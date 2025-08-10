@@ -1,10 +1,12 @@
 package com.rollingball211.moodify_backend.service;
 
 import com.rollingball211.moodify_backend.domain.Mood;
+import com.rollingball211.moodify_backend.dto.mood.MoodResponseDTO;
 import com.rollingball211.moodify_backend.repository.MoodRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MoodService {
@@ -19,15 +21,13 @@ public class MoodService {
         return moodRepository.save(mood);
     }
 
-    public List<Mood> getAllMoods() {
-        return moodRepository.findAll();
+    public List<MoodResponseDTO> getAllMoods() {
+
+        List<Mood> moods = moodRepository.findAll();
+        return moods.stream()
+                .map(mood -> new MoodResponseDTO(mood.getId(),mood.getName()))
+                .collect(Collectors.toList());
     }
-
-
-
-
-
-
 
 
 }
