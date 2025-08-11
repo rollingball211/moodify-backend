@@ -22,6 +22,7 @@ public class MoodMusicMappingResponseDTO {
         this.musicUrl = moodMusicMapping.getMusic().getUrl();
     }
 
+
     public Long getMoodId() {
         return moodId;
     }
