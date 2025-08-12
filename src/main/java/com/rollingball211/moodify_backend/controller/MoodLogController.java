@@ -4,6 +4,7 @@ import com.rollingball211.moodify_backend.domain.MoodLog;
 import com.rollingball211.moodify_backend.dto.moodLog.MoodLogRequestDTO;
 import com.rollingball211.moodify_backend.dto.moodLog.MoodLogResponseDTO;
 import com.rollingball211.moodify_backend.service.MoodLogService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,8 @@ public class MoodLogController {
     }
 
     //아이디에서 moodLog 생성
-    @PostMapping
+    @Operation(summary = "id에서 moodLog 생성하기")
+    @PostMapping("/createLog")
     public ResponseEntity<MoodLogResponseDTO> createMoodLog(@RequestBody MoodLogRequestDTO requestDTO) {
         MoodLog created = moodLogService.createMoodLog(requestDTO.getUserId(),requestDTO.getMoodId());
 
@@ -38,6 +40,7 @@ public class MoodLogController {
     }
 
     //아이디별 분위기 로그 조회
+    @Operation(summary = "id별 분위기 로그 조회하기")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<MoodLogResponseDTO>> getMoodLogsByUser(@Parameter(description = "유저ID")  @PathVariable Long userId) {
         List<MoodLogResponseDTO> responseDTOs = moodLogService.getMoodLogsByUserId(userId);
@@ -46,7 +49,8 @@ public class MoodLogController {
 
 
     //전체 로그 들고오기
-    @GetMapping("getAllMoodLogs")
+    @Operation(summary = "전체 로그 가져오기")
+    @GetMapping("/getAllMoodLogs")
     public ResponseEntity<List<MoodLogResponseDTO>> getAllMoodLogs() {
         List<MoodLogResponseDTO> responseDTOs = moodLogService.getAllMoodLogs();
         return ResponseEntity.ok(responseDTOs);

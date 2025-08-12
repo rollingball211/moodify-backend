@@ -3,6 +3,8 @@ package com.rollingball211.moodify_backend.controller;
 import com.rollingball211.moodify_backend.domain.Music;
 import com.rollingball211.moodify_backend.dto.music.MusicResponseDTO;
 import com.rollingball211.moodify_backend.service.RecommendationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 //음악 추천 컨트롤러
+@Tag(name = "Recommendation_controller", description = "음악 추천 API")
 @RestController
 @RequestMapping("/api/recommendations")
 public class RecommendationController {
@@ -25,6 +28,7 @@ public class RecommendationController {
     }
 
     //URL 경로에서 userId 추출
+    @Operation(summary = "유저ID로 음악추천 해주는 API")
     @GetMapping("/{userId}")
     public ResponseEntity<List<MusicResponseDTO>> recommend(@PathVariable Long userId) {
         List<Music> recommend = recommendationService.recommendedMusicByRecentMood(userId);

@@ -1,9 +1,11 @@
 package com.rollingball211.moodify_backend.controller;
 
-import com.rollingball211.moodify_backend.domain.Mood;
+
 import com.rollingball211.moodify_backend.dto.moodMusicMapping.MoodMusicMappingResponseDTO;
 import com.rollingball211.moodify_backend.repository.MoodRepository;
 import com.rollingball211.moodify_backend.service.MoodMusicMappingService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@Tag(name = "mood-music-mapping-controller", description = "무드-음악 매핑 API")
 @RestController
 @RequestMapping("/api/mood-music")
 public class MoodMusicMappingController {
@@ -27,6 +29,7 @@ public class MoodMusicMappingController {
 
     //MoodID로 음악 가져오기
     //Error Code 수정-> RuntimeException -> NOT FOUND가 되어야함 MOOD가 없는 경우 (ID 요청 에러)
+    @Operation(summary = "MoodId로 음악 가져오기 ex)1,2,3...")
     @GetMapping("/{moodId}")
     public ResponseEntity<List<MoodMusicMappingResponseDTO>> getMuisicByMood(@PathVariable Long moodId){
         return moodRepository.findById(moodId)
