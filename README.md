@@ -55,7 +55,16 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 3. 예외처리 (404 추가)
 4. 시간 처리 통일
 ---
+**2025/08/11**
+- 매핑 서비스 및 컨트롤러 작성
+- DTO 생성
 
+**2025/08/12**
+- music, mood_music_mapping 데이터 450개 모두 작성 완료
+- API 테스팅
+
+**2025/08/13**
+- API 최종 테스트 및 프론트 작업 시작
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
 
@@ -278,4 +287,26 @@ return moods.stream()
  List<Mood> -> 스트림 변환 후 각 원소들을 다시 MoodResponseDTO로 매핑하고
  다시 리스트로 변환한다.
  
+```
+
+**0812**
+
+```
+복습
+ResponseEntity
+-> Spring에서 Http 상태 코드 + 응답 바디를 함께 다루는 클래스
+
+@PathVariable Long moodId
+-> URL 경로 .../{moodId} 에서 {moodId} 부분을 Long 타입으로 받음
+
+
+.map(mood -> ResponseEntity.ok(moodMusicMappingService.getMusicByMood(mood)))
+map -> optional 안에 값이 있는 경우 값을 변환
+여기에서는 mood가 존재할 시 200 OK + 바디에 값을 담아 반호나
+
+
+orElseGet()
+:Optional 안에 값이 없을 경우 실행할 지연 로직 지정
+orElse()는 인자로 준 것을 미리 계산하나, orElseGet()의 경우엔 값이 없을때만 람다를 실행함.
+
 ```
