@@ -310,3 +310,33 @@ orElseGet()
 orElse()는 인자로 준 것을 미리 계산하나, orElseGet()의 경우엔 값이 없을때만 람다를 실행함.
 
 ```
+
+**0813**
+- 치명적인 에러 해결 (트러블슈팅)
+```
+1. 스프링부트의 버전과 스웨거의 버전이 달라 
+void org.springframework.web.method.ControllerAdviceBean.<init>(java.lang.Object)'
+에러 발생, 
+
+에러 확인시점  : 
+(기존 swagger에서 @Tag,@optional) 을 단 내용들이 정상적으로 반영되지 않았음)
+-> @Tag,@optional 을 달면서 swagger 페이지에 에러가 확인됨 (500 error)
+-> 아래의 시도를 거쳐서 해결함
+
+시도 1 . 스프링부트의 버전 바꾸면서 스웨거 버전 테스트
+1. 2.0 ->  2.6.0 ( 에러 발생)
+2. v3/api 마찬가지로 실행 안됨
+
+시도 2. 모든 스프링 캐시 파일 제거 후 dependenct에서 force 나  Constraints로 버전 강제함
+=> NoSuchMethodError 발생
+=> .\gradlew dependencyInsight --dependency org.springframework:spring-webmvc --configuration runtimeClasspath --no-daemon --console=plain
+명령어로 dependency를 확인할 때 스프링 버전이 6.2로 가져오는 것을 확인 
+=> 버전 변화를 주기 위해 스프링의 모든 파일 web/core/beans.. (6.2, 6.8 ) 파일 제거 후  캐시 제거 후 다시 위 명령어 실행
+=> 버전 변화가 없는 것을 확인 
+=> 스프링 버전은 변하지 않고 (아마 상위 옵션이 있는듯 함), 스웨거를 사용하는 버전은 변함
+
+시도 3. 원래 있던 버전을 찾아 clone 후, 빌드 캐시를 진행, 스프링 버전은 바뀌지 않는걸 확인했기에 스웨거 버전 변경
+=> 에러 해결 및 body , response 에 요청했을 때, 정상적으로 api 응답이 이루어짐(백엔드 성공)
+=> ui 변경을 위해서 ctrl+f5를 이용해 캐시 제거 후 정상적 동작 확인
+
+```
