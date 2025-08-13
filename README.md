@@ -64,6 +64,7 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 - API 테스팅
 
 **2025/08/13**
+- 서버 에러 수정 완료
 - API 최종 테스트 및 프론트 작업 시작
 
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
@@ -337,6 +338,6 @@ void org.springframework.web.method.ControllerAdviceBean.<init>(java.lang.Object
 
 시도 3. 원래 있던 버전을 찾아 clone 후, 빌드 캐시를 진행, 스프링 버전은 바뀌지 않는걸 확인했기에 스웨거 버전 변경
 => 에러 해결 및 body , response 에 요청했을 때, 정상적으로 api 응답이 이루어짐(백엔드 성공)
-=> ui 변경을 위해서 ctrl+f5를 이용해 캐시 제거 후 정상적 동작 확인
+=> ui 변경을 위해서 ctrl+f5를 이용해 캐시 제거 후 정상적 동작 확인!
 
 ```
