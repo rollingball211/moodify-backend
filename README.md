@@ -67,6 +67,9 @@ Next.js + Spring Framework로 구성된 음악 추천 프로그램 - moodify 백
 - 서버 에러 수정 완료
 - API 최종 테스트 및 프론트 작업 시작
 
+**2025/08/14**
+- Spring Security 작업
+
 ## ⚙️ 프로젝트 진행 도중 학습한 내용
 
 ### 📄 build.gradle 설정
@@ -340,4 +343,128 @@ void org.springframework.web.method.ControllerAdviceBean.<init>(java.lang.Object
 => 에러 해결 및 body , response 에 요청했을 때, 정상적으로 api 응답이 이루어짐(백엔드 성공)
 => ui 변경을 위해서 ctrl+f5를 이용해 캐시 제거 후 정상적 동작 확인!
 
+```
+
+**0814**
+
+- 스프링 시큐리티 코드 해석
+```
+
+import org.springframework.beans.factory.annotation.Value;
+-> appilcation.properties or 환경변수 값을 가져오기 위해 사용함
+
+@Configuration
+-> 설정 클래스임을 나타내는 어노테이션
+
+@Bean
+-> 스프링 컨테이너에 객체를 
+
+@EnableWebSecurity
+-> 스프링 시큐리티를 활성화
+
+
+@Value("${app.cors.allowed-origins:http://localhost:3000}")
+private String allowedOriginsProp;
+
+-> application.properties에서 app.cors.allowed-origins 값을 읽어옴.
+-> 값이 없다면 뒤에 주소를 사용함 (기본값)
+
+
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+-> 어떤 보안 규칙을 적용할지 결정 (filterchain)
+
+http.csrf(csrf -> csrf.disable())
+-> CSRF(사이트 간 요청 위조) 보호 비활성화. 
+-> REST API의 경우 세션 or 쿠키를 잘 사용하지 않음
+
+.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+-> 세션을 생성하지 않고, 요청마다 인증 정보를 담아 보내도록 설정(stateless)
+
+
+.authorizeHttpRequests(auth -> auth
+.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+.requestMatchers("/api/auth/**").permitAll()
+.requestMatchers("/api/public/**").permitAll()
+.anyRequest().authenticated()
+
+-> 요청별 접근 권한 설정. 스웨거 , 로그인, 공개 api 제외한 나머지 요청은 인증이 필요함
+
+.cors(Customizer.withDefaults());
+
+-> 아래 corsConfigurationSource() 에서 정의한 값을 사용함
+
+return http.build(); 
+-> 필터 체인 반환
+```
+
+- CORS 정책 설정 메서드
+```
+List<String> origins = Arrays.stream(allowedOriginsProp.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isBlank())
+        .toList();
+        
+-> allowedOriginsProp 값을 쉼표로 나눠서 list로 변환.
+
+CorsConfiguration cfg = new CorsConfiguration();
+cfg.setAllowedOrigins(origins);
+
+-> 허용할 도메인 리스트 설정함
+
+
+cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
+-> 허용할 메서드 설정
+
+cfg.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
+-> 요청에서 허용할 헤더 설정
+
+cfg.setAllowCredentials(true);
+-> 쿠키 및 인증 정보 포함한 요청 허용
+
+cfg.setMaxAge(3600L);
+-> CORS preFilght(?) 요청 결과 캐싱 (초 단위) 
+
+UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+source.registerCorsConfiguration("/**", cfg);
+return source;
+
+-> 모든 경로에 대해 위의 cors 정책 허용
+
+@Bean
+public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+
+-> 비밀번호 해싱용 PasswordEncoder 빈 등록.
+```
+
+
+```
+CORS prefilght? (gpt) 
+📌 CORS preflight란?
+
+브라우저에서 서버에 API 요청을 보내기 전에 “이 요청 해도 돼?” 하고 먼저 확인하는 요청입니다.
+
+이 확인 요청이 바로 OPTIONS 메서드입니다.
+
+예: fetch로 POST 요청을 보내는데, 헤더에 Authorization 같은 커스텀 헤더가 있으면 브라우저는 먼저
+
+OPTIONS /api/data
+Origin: http://localhost:3000
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: Authorization
+
+
+이렇게 확인 요청을 보냅니다.
+
+📌 캐싱하는 이유
+
+이 preflight 요청은 매 요청마다 보내면 느려집니다.
+
+setMaxAge(3600L)은 이 확인 결과를 3600초(1시간) 동안 브라우저에 캐싱하도록 하는 설정입니다.
+
+즉, 같은 API 요청을 1시간 동안은 OPTIONS 없이 바로 보낼 수 있습니다.
+
+💡 비유: 음식점에서 “이 쿠폰 써도 돼요?” 하고 물어봤더니
+사장님이 “1시간 동안은 안 물어봐도 돼요” 하는 것과 같습니다.
 ```
