@@ -24,36 +24,25 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins:http://localhost:3000}")
     private String allowedOriginsProp;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-       //http REST API 기본
-        http.csrf(csrf -> csrf.disable())
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //엔드포인트 접근 정책
+        http.csrf(csrf -> csrf.disable()) // //http REST API 기본, CSRF 꺼서 REST API 호출 가능
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 X, 토큰 기반
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(   //스웨거 및 OPEN API 문서 항상 허용 (허용할 API 주소)
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll() // Swagger 문서 공개
 
-                        //스웨거 및 OPEN API 문서 항상 허용 (허용할 API 주소)
-                        .requestMatchers(
-                                "/v3/api-docs/**"
-                                , "/swagger-ui/**"
-                                , "/swagger-ui.html"
-                        ).permitAll()
-
-                        //인증 관련 엔드포인트 (로그인/회원가입/토큰재발급))
                         //.requestMatchers("/api/auth/**").permitAll()
-                        //공개 GET API (모든 api에 권한 허용) -> 테스팅
                         //.requestMatchers("/api/public/**").permitAll()
 
-
-                        //전체 api 허용하기
-                         .requestMatchers("/api/**").permitAll()
-
-
-                        //나머지는 인증 필요함 (임시로 오픈 => 0825)
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/**").permitAll() // 개발 단계: 모든 API 허용
+                        .anyRequest().authenticated()          // 나머지는 인증 필요
                 )
                 .cors(Customizer.withDefaults());
-
 
         return http.build();
     }
