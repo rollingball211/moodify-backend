@@ -40,11 +40,17 @@ public class SecurityConfig {
                         ).permitAll()
 
                         //인증 관련 엔드포인트 (로그인/회원가입/토큰재발급))
-                        .requestMatchers("/api/auth/**").permitAll()
+                        //.requestMatchers("/api/auth/**").permitAll()
                         //공개 GET API (모든 api에 권한 허용) -> 테스팅
-                        .requestMatchers("/api/public/**").permitAll()
-                        //나머지는 인증 필요함
-                       // .anyRequest().authenticated()
+                        //.requestMatchers("/api/public/**").permitAll()
+
+
+                        //전체 api 허용하기
+                         .requestMatchers("/api/**").permitAll()
+
+
+                        //나머지는 인증 필요함 (임시로 오픈 => 0825)
+                        .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults());
 
